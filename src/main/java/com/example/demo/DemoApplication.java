@@ -9,14 +9,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class DemoApplication {
 
-	@Autowired
-	private ErrorAttributes errorAttributes;
-
-	@Bean
-	public AppErrorController appErrorController() {
-		return new AppErrorController(errorAttributes);
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
