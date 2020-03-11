@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Produces(MediaType.APPLICATION_JSON)
+@Produces("application/json")
 public class OlaController {
 
 	private static final String template = "Olá, %s!";
