@@ -13,7 +13,7 @@ public class OlaController {
 	private final AtomicLong contador = new AtomicLong();
 
 	@GetMapping("/ola")
-	public Ola ola(@RequestParam(value = "nome", defaultValue = "World") String nome) {
+	public Ola ola(@RequestParam(value = "nome", defaultValue = "Mundo") String nome) {
 		return new Ola(contador.incrementAndGet(), String.format(template, nome));
 	}
 	
