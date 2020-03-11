@@ -17,4 +17,9 @@ public class OlaController {
 		return new Ola(contador.incrementAndGet(), String.format(template, nome));
 	}
 	
+	@GetMapping("/olaCarlos")
+	public Ola olaCarlos() {
+		return new Ola(contador.incrementAndGet(), "Olá, Carlos!");
+	}
+	
 }
