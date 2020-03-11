@@ -12,6 +12,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -19,6 +23,7 @@ import java.util.Map;
  * Basic Controller which is called for unhandled errors
  */
 @Controller
+@ApiIgnore
 public class AppErrorController implements ErrorController{
 
     /**
