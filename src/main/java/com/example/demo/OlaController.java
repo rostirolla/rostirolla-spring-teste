@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OlaController {
 
-	private static final String template = "Ol·, %s!";
+	private static final String template = "Ol√°, %s!";
 	private final AtomicLong contador = new AtomicLong();
 
 	@GetMapping("/ola")
@@ -19,7 +19,7 @@ public class OlaController {
 	
 	@GetMapping("/olaCarlos")
 	public Ola olaCarlos() {
-		return new Ola(contador.incrementAndGet(), "Ol·, Carlos!");
+		return new Ola(contador.incrementAndGet(), "Ol√°, Carlos!");
 	}
 	
 }
