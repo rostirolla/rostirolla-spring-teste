@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,30 +29,30 @@ public class PessoaController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
-	@GetMapping
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<Pessoa>> listPessoas() {
 		return new ResponseEntity<List<Pessoa>>(pessoaRepository.findAll(), new HttpHeaders(), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(path = "/{id}", produces = "application/json")
 	public ResponseEntity<Pessoa> getPessoa(@PathVariable("id") Long id) {
 		if (pessoaRepository.findById(id).isPresent())
 			return new ResponseEntity<Pessoa>(pessoaRepository.findById(id).get(), new HttpHeaders(), HttpStatus.OK);
 		return new ResponseEntity<Pessoa>(HttpStatus.NOT_FOUND);
 	}
 
-	@PostMapping
+	@PostMapping(produces = "application/json")
 	public ResponseEntity<Pessoa> addPessoa(@RequestBody Pessoa pessoa) {
 		return new ResponseEntity<Pessoa>(pessoaRepository.save(pessoa), new HttpHeaders(), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping(path = "/{id}", produces = "application/json")
 	public ResponseEntity<Pessoa> deletePessoa(@PathVariable("id") Long id) {
 		pessoaRepository.deleteById(id);
 		return new ResponseEntity<Pessoa>(HttpStatus.OK);
 	}
-	
-	@PutMapping
+
+	@PutMapping(produces = "application/json")
 	public ResponseEntity<Pessoa> putPessoa(@RequestBody Pessoa pessoa) throws NotFoundException {
 		if (pessoa.getId() == null || !pessoaRepository.existsById(pessoa.getId()))
 			throw new NotFoundException("Id inválido ou inexistente.");
