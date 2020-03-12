@@ -11,9 +11,9 @@ import lombok.Setter;
 @Entity
 public class Pessoa {
 
-	@Getter
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="idpessoa")
+	@Getter
 	private Long id;
 	
 	@Getter
@@ -22,6 +22,7 @@ public class Pessoa {
 	
 	@Getter
 	@Setter
-	private int idade;
+	private int idade;	
+	
 	
 }

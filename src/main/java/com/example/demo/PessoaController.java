@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities.Pessoa;
 import com.example.demo.repositories.PessoaRepository;
 
+import javassist.NotFoundException;
+
 @RestController
 @RequestMapping("/pessoa")
 public class PessoaController {
@@ -28,13 +30,13 @@ public class PessoaController {
 
 	@GetMapping
 	public ResponseEntity<List<Pessoa>> listPessoas() {
-		return new ResponseEntity<List<Pessoa>>(pessoaRepository.findAll(), new HttpHeaders(), HttpStatus.FOUND);
+		return new ResponseEntity<List<Pessoa>>(pessoaRepository.findAll(), new HttpHeaders(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Pessoa> getPessoa(@PathVariable("id") Long id) {
 		if (pessoaRepository.findById(id).isPresent())
-			return new ResponseEntity<Pessoa>(pessoaRepository.findById(id).get(), new HttpHeaders(), HttpStatus.FOUND);
+			return new ResponseEntity<Pessoa>(pessoaRepository.findById(id).get(), new HttpHeaders(), HttpStatus.OK);
 		return new ResponseEntity<Pessoa>(HttpStatus.NOT_FOUND);
 	}
 
@@ -43,14 +45,16 @@ public class PessoaController {
 		return new ResponseEntity<Pessoa>(pessoaRepository.save(pessoa), new HttpHeaders(), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping
-	public ResponseEntity<Pessoa> deletePessoa(@RequestParam(value = "id") Long id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Pessoa> deletePessoa(@PathVariable("id") Long id) {
 		pessoaRepository.deleteById(id);
 		return new ResponseEntity<Pessoa>(HttpStatus.OK);
 	}
 	
 	@PutMapping
-	public ResponseEntity<Pessoa> putPessoa(@RequestBody Pessoa pessoa) {
+	public ResponseEntity<Pessoa> putPessoa(@RequestBody Pessoa pessoa) throws NotFoundException {
+		if (pessoa.getId() == null || !pessoaRepository.existsById(pessoa.getId()))
+			throw new NotFoundException("Id inválido ou inexistente.");
 		return new ResponseEntity<Pessoa>(pessoaRepository.save(pessoa), new HttpHeaders(), HttpStatus.OK);
 	}
 }
