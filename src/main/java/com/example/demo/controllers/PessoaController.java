@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controllers;
 
 import java.util.List;
 
@@ -20,20 +20,27 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities.Pessoa;
 import com.example.demo.repositories.PessoaRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 
 @RestController
+@Api(description = "CRUD de Pessoas")
 @RequestMapping("/pessoa")
 public class PessoaController {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
+	@ApiOperation(value = "Pesquisa todas as pessoas")
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<Pessoa>> listPessoas() {
 		return new ResponseEntity<List<Pessoa>>(pessoaRepository.findAll(), new HttpHeaders(), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Pesquisa uma pessoa pelo seu id")
 	@GetMapping(path = "/{id}", produces = "application/json")
 	public ResponseEntity<Pessoa> getPessoa(@PathVariable("id") Long id) {
 		if (pessoaRepository.findById(id).isPresent())
@@ -41,17 +48,20 @@ public class PessoaController {
 		return new ResponseEntity<Pessoa>(HttpStatus.NOT_FOUND);
 	}
 
+	@ApiOperation(value = "Cadastra uma pessoa")
 	@PostMapping(produces = "application/json")
 	public ResponseEntity<Pessoa> addPessoa(@RequestBody Pessoa pessoa) {
 		return new ResponseEntity<Pessoa>(pessoaRepository.save(pessoa), new HttpHeaders(), HttpStatus.CREATED);
 	}
 
+	@ApiOperation(value = "Exclui uma pessoa pelo seu id")
 	@DeleteMapping(path = "/{id}", produces = "application/json")
 	public ResponseEntity<Pessoa> deletePessoa(@PathVariable("id") Long id) {
 		pessoaRepository.deleteById(id);
 		return new ResponseEntity<Pessoa>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Altera uma pessoa")
 	@PutMapping(produces = "application/json")
 	public ResponseEntity<Pessoa> putPessoa(@RequestBody Pessoa pessoa) throws NotFoundException {
 		if (pessoa.getId() == null || !pessoaRepository.existsById(pessoa.getId()))
